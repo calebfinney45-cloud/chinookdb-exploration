@@ -53,7 +53,9 @@ Because `WHERE` runs before `GROUP BY`, it cannot filter the result of an aggreg
 WHERE (Country = 'Canada' OR Country = 'Brazil') AND Company IS NOT NULL;
 ```
 
+---
 **There is a missing part here - will be filled later on**
+---
 
 ## Key takeaways
  
