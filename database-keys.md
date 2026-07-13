@@ -1,64 +1,85 @@
-# Database Keys in chinook.db
+# Database Keys in the Chinook Database
 
-This document summarizes the primary keys, foreign keys, and notable indexes for each table in `chinook.db`.
+## Introduction
+Database keys are attributes used to uniquely identify records in a database and establish relationships between tables. They help maintain data integrity and improve data retrieval.
 
-## albums
-- **Primary key:** `AlbumId` (INTEGER)
-- **Foreign keys:** `ArtistId` → `artists(ArtistId)`
-- **Indexes:** `IFK_AlbumArtistId` on `ArtistId`
+# Types of Database Keys
 
-## artists
-- **Primary key:** `ArtistId` (INTEGER)
-- **Foreign keys:** none
-- **Indexes:** none
+## Primary Key (PK)
+A primary key uniquely identifies each record in a table. Primary keys cannot contain duplicate or NULL values.
 
-## customers
-- **Primary key:** `CustomerId` (INTEGER)
-- **Foreign keys:** `SupportRepId` → `employees(EmployeeId)`
-- **Indexes:** `IFK_CustomerSupportRepId` on `SupportRepId`
+Examples from Chinook:
 
-## employees
-- **Primary key:** `EmployeeId` (INTEGER)
-- **Foreign keys:** `ReportsTo` → `employees(EmployeeId)` (self-referential)
-- **Indexes:** `IFK_EmployeeReportsTo` on `ReportsTo`
+Table : Primary Key
+artists : ArtistId
+albums : AlbumId
+customers : CustomerId
+employees : EmployeeId
+genres : GenreId
+invoices : InvoiceId
+invoice_items : InvoiceLineId
+media_types : MediaTypeId
+playlists : PlaylistId
+tracks : TrackId
 
-## genres
-- **Primary key:** `GenreId` (INTEGER)
-- **Foreign keys:** none
-- **Indexes:** none
+## Foreign Key (FK)
+A foreign key is a column that references the primary key of another table, creating relationships between tables.
 
-## invoices
-- **Primary key:** `InvoiceId` (INTEGER)
-- **Foreign keys:** `CustomerId` → `customers(CustomerId)`
-- **Indexes:** `IFK_InvoiceCustomerId` on `CustomerId`
+Examples:
 
-## invoice_items
-- **Primary key:** `InvoiceLineId` (INTEGER)
-- **Foreign keys:** `TrackId` → `tracks(TrackId)`, `InvoiceId` → `invoices(InvoiceId)`
-- **Indexes:** `IFK_InvoiceLineTrackId` on `TrackId`, `IFK_InvoiceLineInvoiceId` on `InvoiceId`
+Table : Foreign Key : Table referenced
+albums : ArtistId : artists
+customers : SupportRepId : employees
+employees : ReportsTo : employees
+invoices : CustomerId : customers
+invoice_items : InvoiceId : invoices
+invoice_items : TrackId : tracks
+tracks : AlbumId : albums
+tracks : GenreId : genres
+tracks : MediaTypeId : media_types
+playlist_track : PlaylistId : playlists
+playlist_track : TrackId : tracks
 
-## media_types
-- **Primary key:** `MediaTypeId` (INTEGER)
-- **Foreign keys:** none
-- **Indexes:** none
+## Composite Key
+A composite key consists of two or more columns that together uniquely identify a record.
 
-## playlists
-- **Primary key:** `PlaylistId` (INTEGER)
-- **Foreign keys:** none
-- **Indexes:** none
+Example:
 
-## playlist_track
-- **Primary key:** composite (`PlaylistId`, `TrackId`) — implemented as an implicit primary index `sqlite_autoindex_playlist_track_1`
-- **Foreign keys:** `TrackId` → `tracks(TrackId)`, `PlaylistId` → `playlists(PlaylistId)`
-- **Indexes:** `IFK_PlaylistTrackTrackId` on `TrackId` (plus the primary composite index)
+The `playlist_track` table uses:
 
-## tracks
-- **Primary key:** `TrackId` (INTEGER)
-- **Foreign keys:** `MediaTypeId` → `media_types(MediaTypeId)`, `GenreId` → `genres(GenreId)`, `AlbumId` → `albums(AlbumId)`
-- **Indexes:** `IFK_TrackMediaTypeId` on `MediaTypeId`, `IFK_TrackGenreId` on `GenreId`, `IFK_TrackAlbumId` on `AlbumId`
+- PlaylistId
+- TrackId
 
----
-Notes:
-- Most tables use a single-column integer primary key (`INTEGER` primary keys are typically auto-incremented by SQLite when declared as such).
-- Many foreign keys have accompanying indexes named with the `IFK_` prefix; those are helpful for JOIN performance and enforce referential relationships.
-- The `playlist_track` table uses a composite primary key (playlist + track) to represent the many-to-many relationship without a separate surrogate id.
+Together they form the composite primary key.
+
+## Candidate Key
+A candidate key is any column that could uniquely identify a row.
+
+Examples include:
+
+- ArtistId
+- AlbumId
+- CustomerId
+- EmployeeId
+- InvoiceId
+- TrackId
+
+Each of these is selected as the primary key of its respective table.
+
+## Alternate Key
+An alternate key is a candidate key that is not chosen as the primary key.
+
+The Chinook database does not explicitly define alternate keys.
+
+## Unique Key
+A unique key ensures that all values in a column are unique.
+
+The Chinook database does not explicitly define separate unique keys other than the primary keys.
+
+# Conclusion
+The Chinook database mainly uses primary keys and foreign keys to uniquely identify records and maintain relationships between tables. It also demonstrates the use of a composite key in the `playlist_track` table.
+
+# References
+1. SQLite Documentation. https://www.sqlite.org/lang_createtable.html
+2. W3Schools. SQL Keys. https://www.w3schools.com/sql/sql_primarykey.asp
+3. Chinook Database GitHub Repository. https://github.com/lerocha/chinook-database
