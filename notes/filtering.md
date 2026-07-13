@@ -55,7 +55,8 @@ WHERE (Country = 'Canada' OR Country = 'Brazil') AND Company IS NOT NULL;
 
 ---
 **There is a missing part here - will be filled later on**
- --- 
+--- 
+
 
 ## Key takeaways
  
