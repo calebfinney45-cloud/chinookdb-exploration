@@ -9,7 +9,7 @@
 SELECT CustomerId, FirstName, LastName, Country
 FROM customers
 WHERE Country = 'Germany';
-
+"""
 -- 2. Filtering with comparison operators
 -- Find tracks longer than 5 minutes (300,000 ms)
 SELECT TrackId, Name, Milliseconds
@@ -74,3 +74,4 @@ FROM customers
 WHERE Country IN ('Germany', 'Austria', 'Belgium', 'Denmark', 'Czech Republic')
   AND Company IS NULL
   AND Email NOT LIKE '%gmail.com';
+  """
