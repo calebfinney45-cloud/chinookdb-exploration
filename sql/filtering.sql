@@ -3,13 +3,13 @@
 -- Demonstrates filtering rows in the Chinook database using WHERE
 -- and its related operators: AND, OR, BETWEEN, IN, LIKE, IS NULL/NOT NULL
 -- =====================================================================
-
+/*
 -- 1. Basic filtering with a single condition
 -- Find every customer based in Germany
 SELECT CustomerId, FirstName, LastName, Country
 FROM customers
 WHERE Country = 'Germany';
-"""
+
 -- 2. Filtering with comparison operators
 -- Find tracks longer than 5 minutes (300,000 ms)
 SELECT TrackId, Name, Milliseconds
@@ -74,4 +74,4 @@ FROM customers
 WHERE Country IN ('Germany', 'Austria', 'Belgium', 'Denmark', 'Czech Republic')
   AND Company IS NULL
   AND Email NOT LIKE '%gmail.com';
-  """
+*/
